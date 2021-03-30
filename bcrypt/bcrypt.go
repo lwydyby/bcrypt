@@ -1,4 +1,4 @@
-package utils
+package bcrypt
 
 import (
 	"crypto/rand"
@@ -503,7 +503,8 @@ func (rcvr *BCrypt) crypt_raw(password []byte, salt []byte, log_rounds int, sign
 	var rounds int
 	var i int
 	var j int
-	cdata := bf_crypt_ciphertext
+	cdata := make([]int, len(bf_crypt_ciphertext))
+	copy(cdata, bf_crypt_ciphertext)
 	clen := len(cdata)
 	var ret []byte
 	if log_rounds < 4 || log_rounds > 31 {
@@ -605,8 +606,10 @@ func (rcvr *BCrypt) encipher(lr []int, off int) {
 }
 
 func (rcvr *BCrypt) init_key() {
-	rcvr.p = P_orig
-	rcvr.s = S_orig
+	rcvr.p = make([]int, len(P_orig))
+	copy(rcvr.p, P_orig)
+	rcvr.s = make([]int, len(S_orig))
+	copy(rcvr.s, S_orig)
 }
 func (rcvr *BCrypt) key(key []byte, sign_ext_bug bool, safety int) {
 	var i int

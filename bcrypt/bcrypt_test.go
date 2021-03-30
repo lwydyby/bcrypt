@@ -1,7 +1,6 @@
-package utils
+package bcrypt
 
 import (
-	"fmt"
 	"github.com/bmizerany/assert"
 	"testing"
 )
@@ -12,10 +11,11 @@ func TestCheckPwd(t *testing.T) {
 }
 
 func TestGenPwd(t *testing.T) {
-	salt := GenSalt("$2b", 12)
-	pwd := HashPw("123456", salt)
-	fmt.Println(pwd)
+	pwd := HashPw("123456", GenSalt("$2b", 12))
 	flag := CheckPw("123456", pwd)
 	assert.Equal(t, true, flag)
+	pwd2 := HashPw("123456", GenSalt("$2b", 12))
+	flag2 := CheckPw("654321", pwd2)
+	assert.Equal(t, false, flag2)
 
 }
